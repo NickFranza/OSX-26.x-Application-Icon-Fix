@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# IconFix - macOS icon cache reset utility
+# Clears the Apple icon services cache and restarts Dock/Finder.
+
+/usr/bin/osascript <<'APPLESCRIPT'
+set appName to "IconFix"
+set msg to "This will clear the macOS icon cache and restart Dock and Finder. Your open Finder windows may refresh."
+
+try
+    display dialog msg buttons {"Cancel", "Run IconFix"} default button "Run IconFix" with icon caution with title appName
+on error number -128
+    return
+end try
+
+set fixCommand to "rm -rfv /Library/Caches/com.apple.iconservices.store; killall Dock; killall Finder"
+
+try
+    do shell script fixCommand with administrator privileges
+    display dialog "Icon cache reset complete. Dock and Finder have been restarted." buttons {"OK"} default button "OK" with icon note with title appName
+on error errMsg number errNum
+    if errNum is not -128 then
+        display dialog "IconFix could not complete. Error: " & errMsg buttons {"OK"} default button "OK" with icon stop with title appName
+    end if
+end try
+APPLESCRIPT
