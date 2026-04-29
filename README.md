@@ -1,83 +1,90 @@
-# macOS 26.x Application Icon Fix
+# IconFix v2 — Native macOS App
 
-A small macOS utility that repairs missing, broken, or stale application icons by clearing the macOS icon services cache and restarting Finder and Dock.
+IconFix is a small native macOS Swift app that repairs missing, broken, stale, or generic application icons by clearing the macOS icon services cache and restarting Finder and Dock.
 
-## Why this exists
+## What changed in v2
 
-After macOS updates, app migrations, beta upgrades, or cache corruption, application icons can appear blank, generic, duplicated, or outdated. **IconFix** gives Mac users and IT support teams a fast one-click repair option.
+- Native SwiftUI macOS app instead of an AppleScript-only app wrapper
+- Branded app window with visible confirmation prompt
+- Progress state while running
+- Completion/error alert
+- App icon asset catalog included
+- Xcode project included for normal macOS development workflow
 
 ## What IconFix does
 
-IconFix runs the following maintenance actions:
+When approved by the user, IconFix runs:
 
 ```bash
-sudo rm -rfv /Library/Caches/com.apple.iconservices.store
+rm -rfv /Library/Caches/com.apple.iconservices.store
 killall Dock
 killall Finder
 ```
 
-The app version prompts for administrator approval before running the repair.
-
-## Download / Release
-
-The packaged app is available in the `releases/` folder:
-
-```text
-releases/IconFix-macOS-App-v1.0.0.zip
-```
+The command is executed through macOS administrator authorization using AppleScript from the native Swift app.
 
 ## Install
 
-1. Download `IconFix-macOS-App-v1.0.0.zip` from the `releases/` folder or GitHub Releases.
-2. Unzip the file.
+1. Download the release ZIP from `releases/` or GitHub Releases.
+2. Unzip it.
 3. Drag `IconFix.app` into `/Applications`.
 4. Right-click `IconFix.app` and choose **Open** the first time.
-5. Approve the admin prompt.
+5. Click **Run IconFix**.
+6. Approve the administrator prompt.
 
-## Run from Terminal instead
+## Build from source
 
-```bash
-chmod +x scripts/iconfix.sh
-./scripts/iconfix.sh
-```
-
-## Build the app from source
-
-On macOS:
+Open the project in Xcode:
 
 ```bash
-chmod +x scripts/build-app.sh
-./scripts/build-app.sh
+open IconFix.xcodeproj
 ```
 
-The build script compiles the AppleScript app, copies `assets/IconFix.icns` into the app bundle, and updates `Info.plist` so macOS uses the custom app icon.
+Then build/run the `IconFix` scheme.
+
+Or build from Terminal:
+
+```bash
+chmod +x scripts/build-release.sh
+./scripts/build-release.sh
+```
+
+The packaged app will be created at:
+
+```text
+releases/IconFix-v2.0.0-Native-macOS-App.zip
+```
 
 ## Repository structure
 
 ```text
-OSX-26.x-Application-Icon-Fix/
-├── IconFix.app/
+IconFix-v2-Native-macOS/
+├── IconFix.xcodeproj/
+├── IconFix/
+│   ├── Assets.xcassets/
+│   │   └── AppIcon.appiconset/
+│   ├── Info.plist
+│   └── Sources/
+│       ├── ContentView.swift
+│       └── IconFixApp.swift
 ├── assets/
 │   ├── IconFix.icns
-│   ├── IconFix.iconset.zip
 │   └── IconFix.png
-├── releases/
-│   └── IconFix-macOS-App-v1.0.0.zip
 ├── scripts/
-│   ├── build-app.sh
-│   └── iconfix.sh
-├── src/
-│   └── IconFix.applescript
+│   └── build-release.sh
+├── releases/
 ├── .gitignore
 ├── LICENSE
 └── README.md
 ```
 
-## Notes
+## macOS security note
 
-- Finder and Dock will restart during the process.
-- The app is currently unsigned, so macOS Gatekeeper may require **right-click → Open** on first launch.
-- This utility is intended for local Mac troubleshooting and endpoint support scenarios.
+This app is unsigned by default. macOS Gatekeeper may require **right-click → Open** on first launch. For public distribution, sign and notarize the app with an Apple Developer account.
+
+## Code signing later
+
+After adding your Apple Developer Team ID in Xcode, archive the app using Product → Archive, then distribute as a Developer ID app and notarize it.
 
 ## License
 
