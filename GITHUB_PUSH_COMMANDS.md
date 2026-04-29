@@ -1,26 +1,19 @@
-# GitHub Push Commands
+# Push to a Clean GitHub Repository
 
-Use these commands from Terminal on your Mac.
+From inside this folder:
 
 ```bash
-git clone https://github.com/NickFranza/OSX-26.x-Application-Icon-Fix.git
-cd OSX-26.x-Application-Icon-Fix
-
-# Copy the contents of this package into the cloned repo folder, then run:
+git init
+git branch -M main
 git add .
-git commit -m "Initial release: source and macOS app package"
-git push origin main
+git commit -m "Initial release: IconFix macOS app"
+git remote add origin https://github.com/NickFranza/OSX-26.x-Application-Icon-Fix.git
+git push -u origin main
 ```
 
-## Optional: create a release tag
+If the remote already exists:
 
 ```bash
-git tag -a v1.0.0 -m "IconFix v1.0.0"
-git push origin v1.0.0
-```
-
-Then create a GitHub Release from tag `v1.0.0` and attach:
-
-```text
-releases/IconFix-macOS-App-v1.0.0.zip
+git remote set-url origin https://github.com/NickFranza/OSX-26.x-Application-Icon-Fix.git
+git push -u origin main
 ```

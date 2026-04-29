@@ -50,13 +50,17 @@ chmod +x scripts/build-app.sh
 ./scripts/build-app.sh
 ```
 
+The build script compiles the AppleScript app, copies `assets/IconFix.icns` into the app bundle, and updates `Info.plist` so macOS uses the custom app icon.
+
 ## Repository structure
 
 ```text
 OSX-26.x-Application-Icon-Fix/
-├── IconFix.app
-├── LICENSE
-├── README.md
+├── IconFix.app/
+├── assets/
+│   ├── IconFix.icns
+│   ├── IconFix.iconset.zip
+│   └── IconFix.png
 ├── releases/
 │   └── IconFix-macOS-App-v1.0.0.zip
 ├── scripts/
@@ -64,7 +68,9 @@ OSX-26.x-Application-Icon-Fix/
 │   └── iconfix.sh
 ├── src/
 │   └── IconFix.applescript
-└── screenshots/
+├── .gitignore
+├── LICENSE
+└── README.md
 ```
 
 ## Notes

@@ -2,8 +2,6 @@
 
 # IconFix - macOS icon cache reset utility
 # Clears the Apple icon services cache and restarts Dock/Finder.
-# Source command:
-#   sudo rm -rfv /Library/Caches/com.apple.iconservices.store; killall Dock; killall Finder
 
 set -euo pipefail
 
